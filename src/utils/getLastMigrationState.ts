@@ -20,7 +20,7 @@ export default async function getLastMigrationState(sequelize: Sequelize) {
       : -1;
 
   const [lastMigration] = await sequelize.query<SequelizeMigrationsMeta>(
-    `SELECT state FROM "SequelizeMigrationsMeta" where revision = '${lastRevision}'`,
+    `SELECT state FROM SequelizeMigrationsMeta where revision = '${lastRevision}'`,
     { type: QueryTypes.SELECT }
   );
 
