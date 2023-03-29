@@ -29,7 +29,7 @@ export default function reverseModels(
     for (const [column, attribute] of Object.entries(attributes)) {
       let rowAttribute: { [x: string]: unknown } = {};
 
-      if (attribute.defaultValue) {
+      if (attribute.defaultValue != null ) {
         const _val = reverseSequelizeDefValueType(attribute.defaultValue);
         if (_val.notSupported) {
           console.log(
