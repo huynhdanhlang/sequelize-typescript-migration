@@ -64,6 +64,7 @@ export default function reverseModels(
         "allowNull",
         "unique",
         "primaryKey",
+        "defaultValue",
         "autoIncrement",
         "autoIncrementIdentity",
         "comment",

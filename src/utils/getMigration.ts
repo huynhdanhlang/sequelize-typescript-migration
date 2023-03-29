@@ -143,8 +143,9 @@ const propertyToStr = (obj) => {
 
       const x = {};
 
-      x[k] = obj[k].value;
-      values.push(JSON.stringify(x).slice(1, -1));
+      x[k] = obj[k];
+      const value = JSON.stringify(x).slice(1, -1);
+      values.push(value);
 
       continue;
     }
