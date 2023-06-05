@@ -1,5 +1,5 @@
 {
-  "name": "@mandarvl/sequelize-typescript-migration",
+  "name": "@huynhdanhlang/sequelize-typescript-migration",
   "version": "3.2.8",
   "description": "migration tool for sequelize & typescript users",
   "keywords": [
@@ -13,10 +13,10 @@
     "detect",
     "changes"
   ],
-  "homepage": "https://github.com/mandarvl/sequelize-typescript-migration",
+  "homepage": "https://github.com/huynhdanhlang/sequelize-typescript-migration",
   "bugs": {
-    "url": "https://github.com/mandarvl/sequelize-typescript-migration/issues",
-    "email": "manda.ravalison@gmail.com"
+    "url": "https://github.com/huynhdanhlang/sequelize-typescript-migration/issues",
+    "email": "danhlangbmvl@gmail.com"
   },
   "main": "dist/index.js",
   "scripts": {
@@ -32,9 +32,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mandarvl/sequelize-typescript-migration.git"
+    "url": "https://github.com/huynhdanhlang/sequelize-typescript-migration.git"
   },
-  "author": "manda.ravalison@gmail.com",
+  "author": "danhlangbmvl@gmail.com",
   "license": "MIT",
   "dependencies": {
     "deep-diff": "^1.0.2",
