@@ -1,6 +1,6 @@
 import { existsSync } from "fs";
 import beautify from "js-beautify";
-import type { Model, ModelCtor } from "sequelize/types";
+import type { Model, ModelCtor, Transaction } from "sequelize/types";
 import type { Sequelize } from "sequelize-typescript";
 
 import type { MigrationState } from "./constants";
@@ -8,7 +8,9 @@ import createMigrationTable from "./utils/createMigrationTable";
 import getDiffActionsFromTables from "./utils/getDiffActionsFromTables";
 import getLastMigrationState from "./utils/getLastMigrationState";
 import getMigration from "./utils/getMigration";
-import getTablesFromModels, { ReverseModelsOptions } from "./utils/getTablesFromModels";
+import getTablesFromModels, {
+  ReverseModelsOptions,
+} from "./utils/getTablesFromModels";
 import writeMigration from "./utils/writeMigration";
 
 export type IMigrationOptions = {
@@ -33,8 +35,10 @@ export type IMigrationOptions = {
   comment?: string;
 
   debug?: boolean;
-} & ReverseModelsOptions
 
+  transaction?: Transaction;
+} & ReverseModelsOptions;
+export type ITransaction = Pick<IMigrationOptions, "transaction">;
 export class SequelizeTypescriptMigration {
   /**
    * generates migration file including up, down code
@@ -55,7 +59,7 @@ export class SequelizeTypescriptMigration {
         )
       );
 
-    await sequelize.authenticate();
+    await sequelize.authenticate({ transaction: options.transaction });
 
     const models: {
       [key: string]: ModelCtor<Model>;
@@ -63,9 +67,11 @@ export class SequelizeTypescriptMigration {
 
     const queryInterface = sequelize.getQueryInterface();
 
-    await createMigrationTable(sequelize);
+    await createMigrationTable(sequelize, { transaction: options.transaction });
 
-    const lastMigrationState = await getLastMigrationState(sequelize);
+    const lastMigrationState = await getLastMigrationState(sequelize, {
+      transaction: options.transaction,
+    });
     const previousState: MigrationState = {
       revision: lastMigrationState?.revision ?? 0,
       version: lastMigrationState?.version ?? 1,
@@ -125,10 +131,16 @@ export class SequelizeTypescriptMigration {
     ];
 
     try {
-      await queryInterface.bulkDelete("SequelizeMigrationsMeta", {
-        revision: currentState.revision,
+      await queryInterface.bulkDelete(
+        "SequelizeMigrationsMeta",
+        {
+          revision: currentState.revision,
+        },
+        { transaction: options.transaction }
+      );
+      await queryInterface.bulkInsert("SequelizeMigrationsMeta", rows, {
+        transaction: options.transaction,
       });
-      await queryInterface.bulkInsert("SequelizeMigrationsMeta", rows);
 
       console.log(`Use sequelize CLI:
   npx sequelize db:migrate --to ${info.revisionNumber}-${

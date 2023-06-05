@@ -2,8 +2,9 @@ import {
   DataType as SequelizeTypescriptDataType,
   Sequelize,
 } from "sequelize-typescript";
+import { ITransaction } from "..";
 
-export default async function createMigrationTable(sequelize: Sequelize) {
+export default async function createMigrationTable(sequelize: Sequelize, options: ITransaction) {
   const queryInterface = sequelize.getQueryInterface();
 
   await queryInterface.createTable("SequelizeMeta", {
@@ -17,7 +18,7 @@ export default async function createMigrationTable(sequelize: Sequelize) {
       type: SequelizeTypescriptDataType.DATE,
       defaultValue: Sequelize.fn("now"),
     },
-  });
+  },{ transaction: options.transaction });
   await queryInterface.createTable("SequelizeMigrationsMeta", {
     revision: {
       type: SequelizeTypescriptDataType.INTEGER,
@@ -37,5 +38,5 @@ export default async function createMigrationTable(sequelize: Sequelize) {
       type: SequelizeTypescriptDataType.DATE,
       defaultValue: Sequelize.fn("now"),
     },
-  });
+  },{ transaction: options.transaction });
 }

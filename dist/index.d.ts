@@ -1,3 +1,5 @@
+import type { Transaction } from "sequelize/types";
+import type { Sequelize } from "sequelize-typescript";
 import { ReverseModelsOptions } from "./utils/getTablesFromModels";
 export declare type IMigrationOptions = {
     /**
@@ -17,7 +19,9 @@ export declare type IMigrationOptions = {
      */
     comment?: string;
     debug?: boolean;
+    transaction?: Transaction;
 } & ReverseModelsOptions;
+export declare type ITransaction = Pick<IMigrationOptions, "transaction">;
 export declare class SequelizeTypescriptMigration {
     /**
      * generates migration file including up, down code

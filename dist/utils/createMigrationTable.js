@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-async function createMigrationTable(sequelize) {
+async function createMigrationTable(sequelize, options) {
     const queryInterface = sequelize.getQueryInterface();
     await queryInterface.createTable("SequelizeMeta", {
         name: {
@@ -14,7 +14,7 @@ async function createMigrationTable(sequelize) {
             type: sequelize_typescript_1.DataType.DATE,
             defaultValue: sequelize_typescript_1.Sequelize.fn("now"),
         },
-    });
+    }, { transaction: options.transaction });
     await queryInterface.createTable("SequelizeMigrationsMeta", {
         revision: {
             type: sequelize_typescript_1.DataType.INTEGER,
@@ -34,7 +34,7 @@ async function createMigrationTable(sequelize) {
             type: sequelize_typescript_1.DataType.DATE,
             defaultValue: sequelize_typescript_1.Sequelize.fn("now"),
         },
-    });
+    }, { transaction: options.transaction });
 }
 exports.default = createMigrationTable;
 //# sourceMappingURL=createMigrationTable.js.map

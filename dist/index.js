@@ -27,11 +27,13 @@ SequelizeTypescriptMigration.makeMigration = async (sequelize, options) => {
     options.preview = options.preview || false;
     if (!(0, fs_1.existsSync)(options.outDir))
         return Promise.reject(new Error(`${options.outDir} not exists. check path and if you did 'npx sequelize init' you must use path used in sequelize migration path`));
-    await sequelize.authenticate();
+    await sequelize.authenticate({ transaction: options.transaction });
     const models = sequelize.models;
     const queryInterface = sequelize.getQueryInterface();
-    await (0, createMigrationTable_1.default)(sequelize);
-    const lastMigrationState = await (0, getLastMigrationState_1.default)(sequelize);
+    await (0, createMigrationTable_1.default)(sequelize, { transaction: options.transaction });
+    const lastMigrationState = await (0, getLastMigrationState_1.default)(sequelize, {
+        transaction: options.transaction,
+    });
     const previousState = {
         revision: lastMigrationState?.revision ?? 0,
         version: lastMigrationState?.version ?? 1,
@@ -72,8 +74,10 @@ SequelizeTypescriptMigration.makeMigration = async (sequelize, options) => {
     try {
         await queryInterface.bulkDelete("SequelizeMigrationsMeta", {
             revision: currentState.revision,
+        }, { transaction: options.transaction });
+        await queryInterface.bulkInsert("SequelizeMigrationsMeta", rows, {
+            transaction: options.transaction,
         });
-        await queryInterface.bulkInsert("SequelizeMigrationsMeta", rows);
         console.log(`Use sequelize CLI:
   npx sequelize db:migrate --to ${info.revisionNumber}-${info.info.name}.js ${`--migrations-path=${options.outDir}`} `);
         return await Promise.resolve({ msg: "success" });

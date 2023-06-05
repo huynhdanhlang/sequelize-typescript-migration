@@ -1,1 +1,1 @@
-export declare const makeColumnName: (classPropertyName: string, useSnakeCase?: boolean | undefined) => string;
+export declare const makeColumnName: (classPropertyName: string, useSnakeCase?: boolean) => string;

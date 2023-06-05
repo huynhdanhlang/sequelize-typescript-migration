@@ -1,2 +1,3 @@
 import { Sequelize } from "sequelize-typescript";
-export default function createMigrationTable(sequelize: Sequelize): Promise<void>;
+import { ITransaction } from "..";
+export default function createMigrationTable(sequelize: Sequelize, options: ITransaction): Promise<void>;

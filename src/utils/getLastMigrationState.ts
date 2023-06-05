@@ -6,8 +6,9 @@ import type {
   SequelizeMigrations,
   SequelizeMigrationsMeta,
 } from "../constants";
+import { ITransaction } from "..";
 
-export default async function getLastMigrationState(sequelize: Sequelize) {
+export default async function getLastMigrationState(sequelize: Sequelize, options: ITransaction) {
   // Fixed issue query table "does not exist". (https://lerner.co.il/2013/11/30/quoting-postgresql/)
   const dialect = sequelize.getDialect();
   let lastExMigrationQuery =
@@ -22,7 +23,7 @@ export default async function getLastMigrationState(sequelize: Sequelize) {
   }
   const [lastExecutedMigration] = await sequelize.query<SequelizeMigrations>(
     lastExMigrationQuery,
-    { type: QueryTypes.SELECT }
+    { type: QueryTypes.SELECT, transaction: options.transaction }
   );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,7 +34,7 @@ export default async function getLastMigrationState(sequelize: Sequelize) {
 
   const [lastMigration] = await sequelize.query<SequelizeMigrationsMeta>(
     lastMigrationQuery(lastRevision),
-    { type: QueryTypes.SELECT }
+    { type: QueryTypes.SELECT, transaction: options.transaction }
   );
 
   if (lastMigration)
