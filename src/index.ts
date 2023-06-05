@@ -115,6 +115,7 @@ export class SequelizeTypescriptMigration {
       return Promise.resolve({ msg: "success without save" });
     }
 
+    // TO DO (remove file migration if bulk delete or bulk insert run not successful)
     const info = await writeMigration(currentState, migration, options);
 
     console.log(
