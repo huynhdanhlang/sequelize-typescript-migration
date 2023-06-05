@@ -49,7 +49,7 @@ typings/
 .env
 .env.test
 
-dist/
+# dist/
 
 # Gatsby files
 .cache/

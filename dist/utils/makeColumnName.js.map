@@ -1,0 +1,1 @@
+{"version":3,"file":"makeColumnName.js","sourceRoot":"","sources":["../../src/utils/makeColumnName.ts"],"names":[],"mappings":";;;AAAA,2CAAwC;AAEjC,MAAM,cAAc,GAAG,CAAC,iBAAyB,EAAE,YAAsB,EAAU,EAAE;IAC1F,OAAO,YAAY,CAAC,CAAC,CAAC,IAAA,qBAAS,EAAC,iBAAiB,CAAC,CAAC,CAAC,CAAC,iBAAiB,CAAC;AACzE,CAAC,CAAC;AAFW,QAAA,cAAc,kBAEzB"}
